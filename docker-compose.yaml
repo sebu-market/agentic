@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    ports:
+      - "5432:5432"  # Expose PostgreSQL on the host machine
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME}"]
+      start_period: 3s
+      interval: 30s
+      timeout: 5s
+      retries: 5
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  pgweb:
+    image: sosedoff/pgweb
+    ports:
+      - "8081:8081"  # Expose pgweb on the host machine
+      # requires pg to be healtyh
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    environment:
+      PGWEB_DATABASE_URL: postgres://${DB_USERNAME}:${DB_PASSWORD}@postgres:${DB_PORT}/${DB_DB}?sslmode=${DB_SSL_MODE}
+
+volumes:
+  pgdata:
+    driver: local
