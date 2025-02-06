@@ -1,0 +1,19 @@
+{
+  "name": "@sebu/agentic",
+  "packageManager": "yarn@4.2.2",
+  "private": true,
+  "scripts": {
+    "clean": "rimraf --glob \"packages/*/dist\" \"packages/**/*.tsbuildinfo*\"",
+    "docker:compose:up": "docker compose --env-file .env up",
+    "docker:compose:down": "docker compose --env-file .env down",
+    "docker:compose:clean": "docker compose --env-file .env down --volumes",
+    "dotenvx:run": "cd $INIT_CWD; dotenvx run --ignore=MISSING_ENV_FILE -f $PROJECT_CWD/.env -f $INIT_CWD/.env --",
+    "shared:clean": "cd $INIT_CWD; rimraf --glob \"dist\" \"*.tsbuildinfo\""
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.1",
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  }
+}

@@ -1,0 +1,47 @@
+{
+    "compilerOptions": {
+        "lib": [
+            "es2023"
+        ],
+        "module": "CommonJS",
+        "target": "es2022",
+        // "strict": false,
+        "esModuleInterop": true,
+        // "moduleResolution": "node16",
+
+        "allowSyntheticDefaultImports": true,
+        "declaration": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "forceConsistentCasingInFileNames": true,
+        // NOTE: setting incremental to true can speedup top level project builds
+        // But we have two issues with it:
+        // - the dto, and client packages have a non-standard build setup
+        //   to produce both cjs and esm output. This is b/c nestjs requires cjs
+        //   while vite requires esm.
+        // - nestjs default behavior is to remove the dist folder on build
+        //   but it fails to remove the tsbuildinfo files. This causes the
+        //   the build to fail on the next build.
+        "incremental": false,
+        "noFallthroughCasesInSwitch": false,
+        "noImplicitAny": false,
+        "removeComments": true,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "sourceMap": true,
+        "strictBindCallApply": false,
+        "strictNullChecks": false,
+    },
+    "exclude": [
+        "**/src_old/**",
+        "**/stories/*",
+        "node_modules",
+        "**/node_modules/*",
+        "**/test/*",
+        "**/dist/*",
+        "**/*spec.ts",
+        "**/*.test.ts",
+        "**/test/**/*.ts",
+        "**/src/**/test/**"
+    ]
+}
