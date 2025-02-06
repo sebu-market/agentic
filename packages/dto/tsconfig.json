@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "composite": true
+    },
+    "exclude": [
+        "node_modules",
+        "dist",
+        "src_old"
+    ],
+    "files": [],
+    "references": [
+        {
+            "path": "./tsconfig.cjs.json",
+        },
+        {
+            "path": "./tsconfig.esm.json",
+        }
+    ]
+}
