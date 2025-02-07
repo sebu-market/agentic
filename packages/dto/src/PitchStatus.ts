@@ -1,0 +1,7 @@
+export enum PitchStatus {
+    PENDING_PAYMENT = "PENDING_PAYMENT",
+    QUEUED = "QUEUED",
+    LIVE = "LIVE",
+    EVALUATED = "EVALUATED",
+    COMPLETED = "COMPLETED",
+}
