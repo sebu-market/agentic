@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "incremental": true,
+    "composite": true,
+    "rootDir": "./src",
+    "outDir": "./dist",
+  },
+  "references": [
+    {
+      "path": "./tsconfig.cjs.json",
+    },
+    {
+      "path": "./tsconfig.esm.json",
+    },
+  ]
+}

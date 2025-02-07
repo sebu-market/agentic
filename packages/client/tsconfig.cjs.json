@@ -1,0 +1,10 @@
+{
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "incremental": true,
+        "composite": true,
+        "rootDir": "./src",
+        "module": "CommonJS",
+        "outDir": "./dist/cjs"
+    }
+}
