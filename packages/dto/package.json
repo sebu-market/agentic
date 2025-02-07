@@ -22,7 +22,6 @@
     "postbuild": "echo '{ \"type\": \"commonjs\" }' > dist/cjs/package.json"
   },
   "dependencies": {
-    "@sinclair/typebox": "^0.34.14",
     "nestjs-zod": "^4.2.0",
     "zod": "^3.24.1"
   },
