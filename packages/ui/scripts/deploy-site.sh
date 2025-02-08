@@ -9,8 +9,14 @@ set -euo pipefail
 # Where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 PROJECT_DIR="$(cd "$SCRIPT_DIR/.." &>/dev/null && pwd)"
-TERRAFORM_DIR="$PROJECT_DIR/../terraform"
+# TERRAFORM_DIR="$PROJECT_DIR/../terraform"
 TFVARS_FILE="$TERRAFORM_DIR/config/dev.tfvars"
+
+# verify TERRAFORM_DIR is set in env
+if [[ -z "${TERRAFORM_DIR:-}" ]]; then
+  echo "Error: TERRAFORM_DIR is not set in the environment."
+  exit 1
+fi
 
 # Locate the top of your Git repo
 GIT_REPO_ROOT="$(git rev-parse --show-toplevel)"
