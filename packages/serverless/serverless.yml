@@ -41,8 +41,6 @@ provider:
     AIME_SCREENING_PROMPT_KEY: ${env:AIME_SCREENING_PROMPT_KEY}
     AIME_ASSISTANT_PROMPT_KEY: ${env:AIME_ASSISTANT_PROMPT_KEY}
     SEBU_INVESTOR_PROMPT_KEY: ${env:SEBU_INVESTOR_PROMPT_KEY}
-    
-
   websocketsApiName: sebu-ws-api
   websocketsApiRouteSelectionExpression: $request.body.event
   websocketsDescription: Custom Serverless Websockets
