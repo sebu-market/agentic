@@ -15,6 +15,7 @@
     "migrations:pending": "yarn with_env sls invoke --function migrations --data '{\"action\": \"pending\"}'",
     "migrations:up": "yarn with_env sls invoke --function migrations --data '{\"action\": \"up\"}'",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "sls:run": "yarn with_env sls",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
