@@ -1,7 +1,7 @@
 import autoBind from 'auto-bind';
 import { type SebuClient } from "../SebuClient";
 import { EventEmitter } from 'eventemitter3';
-import { type z } from 'zod';
+import { z } from 'zod';
 
 
 export type DataWithValidator = {

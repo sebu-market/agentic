@@ -1,6 +1,5 @@
-import { ContractAddresses } from "../../ContractAddresses";
+import ContractAddresses from "../web3/ContractAddresses";
 import { AClientExtension } from "../AClientExtension";
-import {TransactionRequest} from "ethers";
 
 export type PaymentToken = {
     symbol: string;
@@ -36,8 +35,11 @@ export class PaymentExtension extends AClientExtension {
     }
 
     async getCurrentPitchFee(): Promise<bigint> {
+        console.log(`Getting pitch queue length from sebu @${this.client.web3.getSebuMasterAddress()}`);
         const ql = await this.client.web3.sebuMasterContract.getQueueLength();
+        console.log(`Queue length: ${ql}`);
         const fee = await this.client.web3.sebuMasterContract.fee();
+        console.log(`Fee: ${fee}`);
         return fee * (2n ** BigInt(ql));
     }
 

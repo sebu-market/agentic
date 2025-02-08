@@ -1,4 +1,4 @@
-import { ContractAddresses } from "../../ContractAddresses";
+import ContractAddresses from "./ContractAddresses";
 import { AClientExtension } from "../AClientExtension";
 import { Contract, Provider, Signer } from "ethers";
 import SebuMasterABI from "../../abis/SebuMasterABI";

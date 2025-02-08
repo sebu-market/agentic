@@ -11,7 +11,7 @@ import {
     ScreeningMetadataDTOSchema,
     ScreeningMetadataList,
     ScreeningMetadataListDTOSchema
-} from '@template/dto';
+} from '@sebu/dto';
 import { AClientExtension } from "../AClientExtension";
 
 

@@ -1,5 +1,5 @@
+import { EntityByIDRequest, EntityByIDRequestDTOSchema, MessageRequest, MessageRequestDTOSchema, MessageResponseDTO, MessageResponseDTOSchema, MessageSendRequest, MessageSendRequestDTOSchema, PitchMetadata, PitchMetadataDTOSchema, PitchMetadataList, PitchMetadataListDTOSchema } from '@sebu/dto';
 import { AClientExtension } from "../AClientExtension";
-import { EntityByIDRequest, EntityByIDRequestDTOSchema, MessageRequest, MessageRequestDTOSchema, MessageResponseDTO, MessageResponseDTOSchema, MessageSendRequest, MessageSendRequestDTOSchema, PitchMetadata, PitchMetadataDTOSchema, PitchMetadataList, PitchMetadataListDTOSchema } from '@template/dto';
 
 
 export class PitchesExtension extends AClientExtension {
@@ -49,6 +49,13 @@ export class PitchesExtension extends AClientExtension {
                 validator: MessageSendRequestDTOSchema,
             },
             responseValidator: MessageResponseDTOSchema,
+        });
+    }
+
+    async rankedLeaderboard(): Promise<PitchMetadataList> {
+        return await this.getWithValidation<PitchMetadataList>({
+            path: '/pitches/pitchLeaders',
+            responseValidator: PitchMetadataListDTOSchema,
         });
     }
 

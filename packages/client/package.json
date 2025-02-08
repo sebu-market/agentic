@@ -22,8 +22,8 @@
     "postbuild": "echo '{ \"type\": \"commonjs\" }' > dist/cjs/package.json"
   },
   "dependencies": {
+    "@sebu/dto": "workspace:^",
     "@sinclair/typebox": "^0.34.14",
-    "@template/dto": "workspace:^",
     "auto-bind": "^4.0.0",
     "axios": "^1.7.9",
     "eventemitter3": "^5.0.1",

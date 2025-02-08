@@ -8,7 +8,7 @@ import {
     SigVerificationResponseDTOSchema,
     SebuSessionCookieDataSchema,
     SebuSessionCookie,
-} from '@template/dto';
+} from '@sebu/dto';
 
 export class AuthExtension extends AClientExtension {
 
