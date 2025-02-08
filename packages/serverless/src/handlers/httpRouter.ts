@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import serverlessExpress from '@codegenie/serverless-express';
 import { Callback, Context, Handler } from 'aws-lambda';
-import { SebuModule } from 'src/sebu.module';
+import { AppModule } from 'src/app.module';
 
 let server: Handler;
 
@@ -15,7 +15,7 @@ const allowedDomains = [
 const localhostRegex = /^http:\/\/localhost:\d+$/;
 
 async function bootstrap(): Promise<Handler> {
-  const app = await NestFactory.create(SebuModule);
+  const app = await NestFactory.create(AppModule);
 
   app.enableCors({
     origin: (origin, callback) => {

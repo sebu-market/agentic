@@ -1,7 +1,7 @@
 
 import { INestMicroservice } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { SebuModule } from './sebu.module';
+import { AppModule } from './app.module';
 
 // const originalExit = process.exit;
 
@@ -26,7 +26,7 @@ let app: INestMicroservice;
 export async function getNestApp(): Promise<INestMicroservice> {
   if (!app) {
     app = await NestFactory.createMicroservice(
-      SebuModule,
+      AppModule,
       {
         // important to allow proper error handling in the Lambda environment
         abortOnError: false,
