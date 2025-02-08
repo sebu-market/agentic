@@ -6,6 +6,8 @@ import { StorageModule } from '@sebu/db-models';
 import { serviceProviders } from './services';
 import { txnHandlers } from './txns';
 import { allControllers } from './controllers';
+import { SQSModule } from '@sebu/sqs-service';
+import { SSMModule } from '@sebu/ssm-service';
 
 const providers = [
   ...serviceProviders,
@@ -16,6 +18,8 @@ const providers = [
   imports: [
     EventEmitterModule.forRoot(),
     StorageModule.registerAsync(),
+    SQSModule,
+    SSMModule,
     AgentModule,
     CommunicationsModule,
   ],
