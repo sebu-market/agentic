@@ -1,0 +1,109 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: sebumarket
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: sebu
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: serverless-endpoint
+
+plugins:
+  - serverless-domain-manager
+
+build:
+  esbuild:
+    bundle: true
+    target: node20
+    configFile: './esbuild.config.js'
+
+provider:
+  name: aws
+  region: us-east-1
+  runtime: nodejs20.x
+  stage: ${opt:stage, 'dev'}
+  environment:
+    DB_HOST: ${self:custom.secrets.db.host, null}
+    DB_PORT: ${self:custom.secrets.db.port, null}
+    DB_DATABASE: ${self:custom.secrets.db.database, null}
+    DB_USERNAME: ${self:custom.secrets.db.username, null}
+    DB_PASSWORD: ${self:custom.secrets.db.password, null}
+    DB_SSL_REQUIRED: ${self:custom.secrets.db.ssl_required, null}
+    NODE_EXTRA_CA_CERTS: /var/runtime/ca-cert.pem
+    AI_API_KEY: ${env:AI_API_KEY}
+    COINGECKO_API_KEY: ${env:COINGECKO_API_KEY}
+    EMBEDDING_API_KEY: ${env:EMBEDDING_API_KEY}
+    CHAIN_ID: ${env:CHAIN_ID}
+    RPC_URL: ${env:RPC_URL}
+    USDC_ADDRESS: ${env:USDC_ADDRESS}
+    WETH_ADDRESS: ${env:WETH_ADDRESS}
+    UNIV3_FACTORY_ADDRESS: ${env:UNIV3_FACTORY_ADDRESS}
+    USDC_WETH_POOL: ${env:USDC_WETH_POOL}
+    SEBU_MASTER_ADDRESS: ${env:SEBU_MASTER_ADDRESS}
+    SEBU_PORTFOLIO_ADDRESS: ${env:SEBU_PORTFOLIO_ADDRESS}
+    AIME_SCREENING_PROMPT_KEY: ${env:AIME_SCREENING_PROMPT_KEY}
+    AIME_ASSISTANT_PROMPT_KEY: ${env:AIME_ASSISTANT_PROMPT_KEY}
+    SEBU_INVESTOR_PROMPT_KEY: ${env:SEBU_INVESTOR_PROMPT_KEY}
+    
+
+  websocketsApiName: sebu-ws-api
+  websocketsApiRouteSelectionExpression: $request.body.event
+  websocketsDescription: Custom Serverless Websockets
+  # httpApi:
+    # cors: true
+  # logs:
+  #   httpApi:
+  #     level: INFO
+    # websocket:
+    #   level: INFO
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - secretsmanager:GetSecretValue
+          Resource:
+            - arn:aws:secretsmanager:${self:provider.region}:${aws:accountId}:secret:db-credentials-*
+  vpc:
+    securityGroupIds:
+      - ${env:AWS_SECURITY_GROUP_ID}
+    subnetIds:
+      - ${env:AWS_SUBNET_ID}
+
+
+custom:
+  secrets: ${file(./sls/resolve-secrets.js)}
+
+  # used custom domain plugin
+  customDomain:
+    http:
+      domainName: ${AWS_API_HTTP_FQDN}
+      # stage: dev
+      basePath: v1
+      createRoute53Record: true
+      createRoute53IPv6Record: true
+      endpointType: REGIONAL
+      securityPolicy: tls_1_2
+      apiType: http
+    websocket:
+      domainName: ${AWS_API_WS_FQDN}
+      # stage: dev
+      basePath: v1
+      createRoute53Record: true
+      createRoute53IPv6Record: true
+      endpointType: REGIONAL
+      securityPolicy: tls_1_2
+
+functions:
+
+  httpRouter:
+    handler: src/httpRouter.handler
+    events:
+      - httpApi: '*'
+
+  # watchdogHandler:
+  #   handler: src/handler.watchdogHandler
+  #   events:
+  #     - schedule:
+  #       rate: rate(1 minute)
+
+  migrations:
+    timeout: 600
+    handler: src/migrations.handler
