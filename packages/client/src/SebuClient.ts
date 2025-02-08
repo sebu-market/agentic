@@ -9,8 +9,8 @@ import { ProfilesExtension } from "./extensions/profiles/ProfilesExtension";
 import { PitchesExtension } from './extensions/pitches/PitchesExtension';
 import { RoundsExtension } from './extensions/rounds/RoundsExtension';
 import { ScreeningsExtension } from './extensions/screenings/ScreeningsExtension';
-// import { WebsocketsExtension } from './extensions/websockets/WebsocketsExtension';
-import { PaymentSimulationExtension } from './extensions/payment-simulator/PaySimulatorExt';
+import { Web3Extension } from './extensions/web3/Web3Extension';
+import { PaymentExtension } from './extensions/payment/PaymentExtension';
 
 export type SebuClientOptions = {
     httpEndpoint: string;
@@ -32,8 +32,8 @@ export class SebuClient {
     pitches: PitchesExtension;
     rounds: RoundsExtension;
     screenings: ScreeningsExtension;
-    // websockets: WebsocketsExtension;
-    paymentSimulation: PaymentSimulationExtension;
+    web3: Web3Extension;
+    payment: PaymentExtension;
 
     static defaults: SebuClientOptions = {
         httpEndpoint: 'https://api.dev.sebu.market/v1',
@@ -60,8 +60,8 @@ export class SebuClient {
         this.pitches = new PitchesExtension(this);
         this.rounds = new RoundsExtension(this);
         this.screenings = new ScreeningsExtension(this);
-        // this.websockets = new WebsocketsExtension(this);
-        this.paymentSimulation = new PaymentSimulationExtension(this);
+        this.web3 = new Web3Extension(this);
+        this.payment = new PaymentExtension(this);
 
         autoBind(this);
     }
