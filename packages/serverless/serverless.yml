@@ -61,12 +61,23 @@ provider:
             - secretsmanager:GetSecretValue
           Resource:
             - arn:aws:secretsmanager:${self:provider.region}:${aws:accountId}:secret:db-credentials-*
+        - Effect: Allow
+          Action:
+            - sqs:DeleteMessage
+            - sqs:ReceiveMessage
+            - sqs:SendMessage
+            - sqs:GetQueueAttributes
+            - sqs:GetQueueUrl
+            - sqs:ChangeMessageVisibility
+            - sqs:ListQueues
+            - sqs:ListQueueTags
+          Resource:
+            - arn:aws:sqs:${self:provider.region}:${aws:accountId}:*
   vpc:
     securityGroupIds:
       - ${env:AWS_SECURITY_GROUP_ID}
     subnetIds:
       - ${env:AWS_SUBNET_ID}
-
 
 custom:
   secrets: ${file(./sls/resolve-secrets.js)}
