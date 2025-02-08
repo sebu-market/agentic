@@ -20,6 +20,7 @@ module.exports = () => ({
         'oracledb',
         'pg-query-stream',
         'sqlite3',
+        '@nestjs/swagger',
     ],
     // minify: true,
     plugins: [esbuildPluginTsc()],
