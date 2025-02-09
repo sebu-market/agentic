@@ -8,9 +8,12 @@
   "scripts": {
     "build": "yarn clean; yarn workspaces foreach --exclude @sebu/ui --all --topological --parallel run build",
     "clean": "rimraf --glob \"packages/*/dist\" \"packages/**/*.tsbuildinfo*\"",
-    "docker:compose:up": "docker compose --env-file .env up",
-    "docker:compose:down": "docker compose --env-file .env down",
+    "deploy:all": "yarn deploy:infra && yarn deploy:ui",
+    "deploy:infra": "yarn workspace @sebu/infra deploy",
+    "deploy:ui": "yarn workspace @sebu/ui deploy",
     "docker:compose:clean": "docker compose --env-file .env down --volumes",
+    "docker:compose:down": "docker compose --env-file .env down",
+    "docker:compose:up": "docker compose --env-file .env up",
     "dotenvx:run": "cd $INIT_CWD; dotenvx run --ignore=MISSING_ENV_FILE -f $PROJECT_CWD/.env -f $INIT_CWD/.env --",
     "shared:clean": "cd $INIT_CWD; rimraf --glob \"dist\" \"*.tsbuildinfo\""
   },
