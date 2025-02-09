@@ -2,6 +2,13 @@
 export default async (): Promise<any> => {
 
     return {
+        admin: {
+            siteAdmins: (process.env.SITE_ADMINS || '').split(',').map((it: string) => it.toLowerCase()),
+            wallet: {
+                address: process.env.ADMIN_WALLET_ADDRESS,
+                privateKey: process.env.ADMIN_WALLET_PRIVATE_KEY
+            }
+        },
         cookies: {
             auth: {
                 password: process.env.AUTH_COOKIE_PASSWORD
