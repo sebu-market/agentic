@@ -8,15 +8,19 @@ import { ChatMessageList } from "@/components/ui/chat/chat-message-list";
 import { MessageRole, MessageSender } from "@/queries/utils/dto";
 import { Message, MessageResponseDTO, MessageSendRequest } from '@sebu/dto';
 
-import sebuAvatarUrl from '@/assets/images/sebu-avatar.png';
-import aimeAvatarUrl from '@/assets/images/aime-avatar.png';
-import userAvatarUrl from '@/assets/images/user-avatar.png';
+import sebuAvatarUrl from '@/assets/images/avatars/sebu.png';
+import aimeAvatarUrl from '@/assets/images/avatars/aime.png';
+import userAvatarUrl from '@/assets/images/avatars/human.png';
 
 const Avatars: Record<MessageSender, string> = {
     [MessageSender.Aime]: aimeAvatarUrl,
     [MessageSender.Sebu]: sebuAvatarUrl,
     [MessageSender.User]: userAvatarUrl,
 } as const;
+
+console.log({
+    Avatars,
+})
 
 import { AnimatePresence, motion } from "framer-motion";
 import {
