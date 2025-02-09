@@ -44,7 +44,7 @@ export class GuardianController {
         }
 
         // verify site admin
-        const siteAdmins = this.config.get<string[]>('admin.siteAdmins');
+        const siteAdmins = this.config.get<string[]>('guardian.siteGuardians');
         const isAdmin = siteAdmins.includes(user.user_wallet.toLowerCase());
         if (!isAdmin) {
             return {
@@ -67,7 +67,7 @@ export class GuardianController {
         }
 
         // verify site admin
-        const siteAdmins = this.config.get<string[]>('admin.siteAdmins');
+        const siteAdmins = this.config.get<string[]>('guardian.siteGuardians');
         const isAdmin = siteAdmins.includes(user.user_wallet.toLowerCase());
         if (!isAdmin) {
             return toErrorDTO("Unauthorized", 401);

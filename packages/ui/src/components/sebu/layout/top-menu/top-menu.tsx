@@ -13,6 +13,7 @@ import {
 import { useNavigate } from "@tanstack/react-router"
 import { ConnectButton } from "./connect-button"
 import { useIsGuardian } from "@/queries/guardian"
+import { useSession } from "@/queries/auth"
 
 
 const components: { title: string; href: string; description: string }[] = [
@@ -55,7 +56,10 @@ const components: { title: string; href: string; description: string }[] = [
 
 export function TopMenu() {
   const navigate = useNavigate();
-  const isGuardianQuery = useIsGuardian();
+  const sessionQuery = useSession();
+  const session = sessionQuery.data;
+  const hasSession = Boolean(session?.address);
+  const isGuardianQuery = useIsGuardian(hasSession);
   const isGuardian = isGuardianQuery.data?.content === 'true';
 
   return (

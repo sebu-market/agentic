@@ -11,9 +11,10 @@ export const queries = createQueryKeyStore({
     },
 });
 
-export function useIsGuardian() {
+export function useIsGuardian(hasSession: boolean) {
     return useQuery({
         ...queries.guardian.isGuardian,
+        enabled: hasSession,
     });
 }
 
