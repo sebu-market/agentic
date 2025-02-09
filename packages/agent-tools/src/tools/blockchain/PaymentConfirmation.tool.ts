@@ -54,7 +54,8 @@ export class PaymentConfirmationTool implements IAgentTool<IPaymentConfirmation>
         readonly embedding: VectorGenerator
     ) {
         this.expectedChainId = +this.config.getOrThrow("rpc.chainId");
-        this.provider = new JsonRpcProvider(this.config.getOrThrow(`rpc.${this.expectedChainId}.url`));
+        const url = this.config.getOrThrow(`rpc.${this.expectedChainId}.url`);
+        this.provider = new JsonRpcProvider(url);
         const tl = config.get<number>('sebu.evaluation.timeLimitMinutes');
         if(tl) {
             this.pitchTimeLimit = tl * 60;
