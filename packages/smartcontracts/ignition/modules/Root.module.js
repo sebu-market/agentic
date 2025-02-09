@@ -32,6 +32,10 @@ const deployFunding = (meta) => {
   return meta;
 }
 
+const sleep = (ms) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 module.exports = buildModule("RootDeploymentModule", (m) => {
 
   const {deployment} = settings;
@@ -44,7 +48,18 @@ module.exports = buildModule("RootDeploymentModule", (m) => {
     configSettings: cfg,
     commonConfig: deployment.DeploymentSettings.common
   }
+  console.log("Deploying with config", cfg);
+  /*
+  const expr = Date.now() + 10000;
+  let countdown = 10;
+  while(Date.now() < expr) {
+    console.log(`${countdown} seconds until deployment...`);
+    await sleep(1000);
+    countdown--;
+  }
 
+  console.log("Deploying contracts...");
+  */
   metadata = deploySebuMaster(metadata);
   metadata = deployPortfolio(metadata);
   metadata = deployFunding(metadata);
