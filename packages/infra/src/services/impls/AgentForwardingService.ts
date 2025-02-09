@@ -18,7 +18,7 @@ export class AgentForwardingService implements IOutboundMessageHandler {
     async callAgent(dto: AgentLambdaRequestDTO): Promise<void> {
         this.log.log('callAgent', dto);
 
-        await this.ds.readOnlyContext(async (ctx) => {
+        let inbound: IInboundMessageEnvelope = await this.ds.readOnlyContext(async (ctx) => {
             const store = ctx.getDataStore(dto.context === 'pitch' ? APitchStore : AScreeningStore);
             const sess = await store.findById(dto.sessionId, true);
             if (!sess) {
@@ -42,14 +42,14 @@ export class AgentForwardingService implements IOutboundMessageHandler {
                 throw new Error(`Agent response message ${dto.responseMsgId} not found`);
             }
 
-            const inbound: IInboundMessageEnvelope = {
+            return {
                 content: msg.content,
                 context: dto.context,
                 agentResponseMsgId: agentResponse.id,
                 sessionId: dto.sessionId,
             };
-            await this.msgBus.incoming(inbound, this);
         });
+        await this.msgBus.incoming(inbound, this);
     }
 
     async onMessage(i: IInboundMessageEnvelope, o: IOutboundMessageEnvelope): Promise<void> {
