@@ -8,7 +8,7 @@ import { abis, ContractAddresses } from "@sebu/dto";
 import { ITxnInput, ITxnLogEvent, TxnRouterService } from "../../txns";
 import { ADataStoreFactory, AInvestmentRoundStore } from "@sebu/db-models";
 
-@Controller('admin')
+@Controller('guardian')
 export class GuardianController {
     private readonly log: Logger = new Logger(GuardianController.name);
 
