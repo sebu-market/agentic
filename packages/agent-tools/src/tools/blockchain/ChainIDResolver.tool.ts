@@ -12,12 +12,15 @@ export type NetworkType = {
 
 export const Ethereum: NetworkType = {networkName: 'ethereum', chainId: 1};
 export const Arbitrum: NetworkType = {networkName: 'arbitrum', chainId: 42161};
+export const BaseSepolia: NetworkType = {networkName: 'base-sepolia', chainId: 84532};
 
 export const NETWORKS: Map<number|string, NetworkType> = new Map();
 NETWORKS.set(1, Ethereum);
 NETWORKS.set(42161, Arbitrum);
+NETWORKS.set(84532, BaseSepolia);
 NETWORKS.set('ethereum', Ethereum);
 NETWORKS.set('arbitrum', Arbitrum);
+NETWORKS.set('base-sepolia', BaseSepolia);
 
 const params: ZodSchema = z.object({
     chainName: z.string().describe("The name of a blockchain network such as 'ethereum' or 'arbitrum'"),
