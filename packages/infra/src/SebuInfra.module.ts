@@ -18,7 +18,7 @@ const providers = [
   imports: [
     EventEmitterModule.forRoot(),
     StorageModule.registerAsync(),
-    SQSModule,
+    SQSModule.forRoot(),
     SSMModule,
     AgentModule,
     CommunicationsModule,

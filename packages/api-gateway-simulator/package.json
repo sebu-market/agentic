@@ -10,7 +10,7 @@
     "build": "yarn clean; tsc --build",
     "clean": "yarn shared:clean",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "yarn dotenvx:run nest start --inspect",
+    "start": "NODE_ENV=development; yarn dotenvx:run nest start --inspect",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
