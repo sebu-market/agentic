@@ -113,7 +113,7 @@ export function ChatRoom({ contextType, contextId, messages, inputPermissions, s
                 <ChatMessageList ref={messagesContainerRef}  >
                     {/* Chat messages */}
                     <AnimatePresence>
-                        {messages.map((message, index) => {
+                        {messages.filter((it) => it.isInjected == false).map((message, index) => {
                             const variant = getMessageVariant(message.role);
                             const isLoading = message.content === ""
                                 && message.role === MessageRole.Assistant
