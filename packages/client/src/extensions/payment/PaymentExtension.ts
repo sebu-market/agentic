@@ -1,4 +1,4 @@
-import ContractAddresses from "../web3/ContractAddresses";
+import { ContractAddresses } from "@sebu/dto";
 import { AClientExtension } from "../AClientExtension";
 
 export type PaymentToken = {

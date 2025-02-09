@@ -1,7 +1,7 @@
-import ContractAddresses from "./ContractAddresses";
 import { AClientExtension } from "../AClientExtension";
 import { Contract, Provider, Signer } from "ethers";
 import SebuMasterABI from "../../abis/SebuMasterABI";
+import { ContractAddresses } from "@sebu/dto";
 
 const ERC20ABI = [
     "function balanceOf(address account) external view returns (uint256)",
