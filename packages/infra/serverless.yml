@@ -51,6 +51,7 @@ provider:
     SITE_GUARDIANS: ${env:SITE_GUARDIANS}
     GUARDIAN_WALLET_ADDRESS: ${env:GUARDIAN_WALLET_ADDRESS}
     GUARDIAN_WALLET_PRIVATE_KEY: ${env:GUARDIAN_WALLET_PRIVATE_KEY}
+    NO_COLOR: 1
   # websocketsApiName: sebu-ws-api
   # websocketsApiRouteSelectionExpression: $request.body.event
   # websocketsDescription: Custom Serverless Websockets
