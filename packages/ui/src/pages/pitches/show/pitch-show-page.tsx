@@ -67,8 +67,8 @@ export function PitchShowPage(props: PitchShowPageProps) {
                 <Sidebar />
             </div>
             <div className='col-span-9 relative'>
-                <h1>
-                    Pitch {pitch.id}
+                <h1 className="text-lg font-semibold">
+                    Pitch - {pitch.projectSummary?.projectName || pitch.id}
                 </h1>
                 <ChatRoom
                     inputPermissions={inputPermissions}
