@@ -52,6 +52,10 @@ contract SebuMaster {
      * @param _shepard address of shepard who will transfer agent information to the contract
      */
     constructor(uint256 _fee,address _investmentToken,address _guardian, address _shepard){
+        require(_investmentToken != address(0), "Investment token address cannot be 0x");
+        require(_guardian != address(0), "Guardian address cannot be 0x");
+        require(_shepard != address(0), "Shepard address cannot be 0x");
+        require(_fee > 0, "Fee must be greater than 0");
         fee = _fee;
         guardian = _guardian;
         shepard = _shepard;

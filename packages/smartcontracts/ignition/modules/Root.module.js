@@ -15,11 +15,14 @@ const deploySebuMaster = (meta) => {
 }
 
 const deployPortfolio = (meta) => {
+
   const con = meta.builder.contract("Portfolio", [
     meta.commonConfig.lpTokenName,
     meta.commonConfig.lpTokenSymbol,
     meta.sebu
-  ]);
+  ], {
+    after: meta.sebu
+  });
   meta.portfolio = con;
   return meta;
 }
@@ -27,7 +30,9 @@ const deployPortfolio = (meta) => {
 const deployFunding = (meta) => {
   const con = meta.builder.contract("Funding", [
     meta.sebu
-  ]);
+  ], {
+    after: meta.sebu
+  });
   meta.funding = con;
   return meta;
 }

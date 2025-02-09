@@ -5,7 +5,8 @@
   "scripts": {
     "test": "hardhat test",
     "build": "hardhat compile",
-    "deploy": "npx hardhat ignition deploy"
+    "deploy": "npx hardhat ignition deploy",
+    "initSebu": "dotenvx run node src/initSebu.js"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
