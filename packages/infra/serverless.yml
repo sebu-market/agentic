@@ -35,6 +35,7 @@ provider:
     DB_SSL_REQUIRED: ${self:custom.secrets.db.ssl_required, null}
     DB_USERNAME: ${self:custom.secrets.db.username, null}
     EMBEDDING_API_KEY: ${env:EMBEDDING_API_KEY}
+    SQS_AGENT_MESSAGE_QUEUE: agent-message
     IS_LOCAL: false
     LLM_PROVIDER: openai
     NODE_EXTRA_CA_CERTS: /var/runtime/ca-cert.pem
@@ -59,6 +60,15 @@ provider:
   iam:
     role:
       statements:
+        - Effect: Allow
+          Action:
+            - ssm:GetParameter
+            - ssm:GetParameters
+            - ssm:GetParametersByPath
+          Resource:
+            - arn:aws:ssm:${self:provider.region}:${aws:accountId}:parameter${env:AIME_ASSISTANT_PROMPT_KEY}
+            - arn:aws:ssm:${self:provider.region}:${aws:accountId}:parameter${env:AIME_SCREENING_PROMPT_KEY}
+            - arn:aws:ssm:${self:provider.region}:${aws:accountId}:parameter${env:SEBU_INVESTOR_PROMPT_KEY}
         - Effect: Allow
           Action:
             - secretsmanager:GetSecretValue
@@ -106,20 +116,22 @@ custom:
     #   securityPolicy: tls_1_2
 
 functions:
+  agentCallHandler:
+    handler: src/handler.agentCallHandler
+    events:
+      - sqs: arn:aws:sqs:us-east-1:746669197208:agent-message
 
   httpRouter:
-    handler: src/handler.defaultHttpHandler
+    handler: src/expressHandler.handler
     events:
       - httpApi: '*'
 
-  # watchdogHandler:
-  #   handler: src/handler.watchdogHandler
-  #   events:
-  #     - schedule:
-  #       rate: rate(1 minute)
-# events:
-#       # These are all possible formats
-#       - sqs: arn:aws:sqs:region:XXXXXX:MyFirstQueue
+  watchdogHandler:
+    handler: src/handler.watchdogHandler
+    events:
+      - schedule: rate(1 minute)
+        # rate: rate(1 minute)
+
   migrations:
     timeout: 600
-    handler: src/handlers/migrations.handler
+    handler: src/migrations.handler
