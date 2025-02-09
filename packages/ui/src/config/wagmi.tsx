@@ -1,6 +1,6 @@
 import { getDefaultConfig } from "connectkit";
 import { createConfig, http } from "wagmi";
-import { arbitrum, base } from "wagmi/chains";
+import { arbitrum, base, baseSepolia } from "wagmi/chains";
 
 const forkedChain = {
   ...base,
@@ -16,7 +16,12 @@ const forkedChain = {
 export const wagmiConfig = createConfig(
   getDefaultConfig({
     // Your dApps chains
-    chains: [base, arbitrum, forkedChain],
+    chains: [
+      base,
+      arbitrum,
+      forkedChain,
+      baseSepolia,
+    ],
     transports: {
       [forkedChain.id]: http(
         forkedChain.rpcUrls.default.http[0]
@@ -25,6 +30,9 @@ export const wagmiConfig = createConfig(
       [base.id]: http(
         // FIXME: Rate limited and not for production systems.
         `https://mainnet.base.org`
+      ),
+      [baseSepolia.id]: http(
+        'https://sepolia.base.org',
       ),
     },
 
