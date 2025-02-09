@@ -5,6 +5,7 @@
         "composite": true,
         "rootDir": "./src",
         "module": "CommonJS",
-        "outDir": "./dist/cjs"
+        "outDir": "./dist/cjs",
+        "sourceMap": true,
     }
 }
