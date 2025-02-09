@@ -18,3 +18,4 @@ export * from './SigVerificationRequestDTO';
 export * from './SigVerificationResponseDTO';
 export * from './ContractAddresses';
 export * from './abi';
+export * from './GuardianResponseDTO';
