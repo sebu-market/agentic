@@ -122,8 +122,12 @@ custom:
 functions:
   agentCallHandler:
     handler: src/handler.agentCallHandler
+    timeout: 60
     events:
-      - sqs: arn:aws:sqs:us-east-1:746669197208:agent-message
+      - sqs: 
+          arn: arn:aws:sqs:us-east-1:746669197208:agent-message
+          batchSize: 1
+          maximumBatchingWindow: 2
 
   httpRouter:
     handler: src/expressHandler.handler
