@@ -3,12 +3,12 @@ import { NextPitchHandler } from './NextPitchHandler';
 import { PaymentHandler } from './PaymentHandler';
 import { PitchRelatedEventHandler } from './PitchRelatedEventHandler';
 import { RoundRelatedEventHandler } from './RoundRelatedEventHandler';
-import { TxnRouterService } from './txnRouter.service';
+import { TxnRouterService } from './TxnRouterService';
 
 export * from './NextPitchHandler';
 export * from './PaymentHandler';
 export * from './PitchRelatedEventHandler';
-export * from './txnRouter.service';
+export * from './TxnRouterService';
 
 export const txnHandlers = [
     MintRelatedEventHandler,

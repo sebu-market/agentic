@@ -30,7 +30,6 @@
     "@sebu/communication": "workspace:^",
     "@sebu/db-models": "workspace:^",
     "@sebu/dto": "workspace:^",
-    "@sebu/smartcontracts": "workspace:^",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "cookie": "^1.0.2",

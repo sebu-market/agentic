@@ -1,8 +1,8 @@
 import { Injectable, Logger, OnModuleInit } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { ADataStoreFactory, AInvestorPortfolioStore, APendingLPStore } from "@sebu/db-models";
-import { ILogDescription, ITxnHandler, ITxnInput, TxnRouterService } from "./txnRouter.service";
-import { ContractAddresses } from "@sebu/smartcontracts";
+import { ILogDescription, ITxnHandler, ITxnInput, TxnRouterService } from "./TxnRouterService";
+import { ContractAddresses } from "@sebu/dto";
 
 @Injectable()
 export class MintRelatedEventHandler implements OnModuleInit, ITxnHandler {

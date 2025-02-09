@@ -2,7 +2,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import { AddressLike, Interface, LogDescription } from "ethers";
 import {SebuMasterABI} from '@sebu/smartcontracts';
 import { ConfigService } from "@nestjs/config";
-import { ContractAddresses } from "@sebu/smartcontracts";
+import { ContractAddresses } from "@sebu/dto";
 
 export interface ITxnLogEvent {
     address: string;

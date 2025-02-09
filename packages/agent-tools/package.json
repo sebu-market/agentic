@@ -27,7 +27,6 @@
     "@sebu/communication": "workspace:^",
     "@sebu/db-models": "workspace:^",
     "@sebu/dto": "workspace:*",
-    "@sebu/smartcontracts": "workspace:^",
     "@sebu/ssm-service": "workspace:^",
     "@uniswap/sdk-core": "^7.1.0",
     "@uniswap/v3-core": "^1.0.1",

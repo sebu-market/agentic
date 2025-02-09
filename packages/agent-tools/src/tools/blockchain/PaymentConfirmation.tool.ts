@@ -6,8 +6,7 @@ import { ADataStoreFactory, APitchStore, AScreeningStore, AUserStore, Conversati
 import { ethers, Interface, JsonRpcProvider, TransactionLike, TransactionReceipt } from "ethers";
 import {SebuMasterABI} from "@sebu/smartcontracts";
 import { VectorGenerator } from "../duplication";
-import {PitchStatus} from "@sebu/dto";
-import {ContractAddresses} from "@sebu/smartcontracts";
+import {ContractAddresses, PitchStatus} from "@sebu/dto";
 
 const params: ZodSchema = z.object({
     paymentChainId: z.number().describe("The chain id for the blockchain network where payment was made"),

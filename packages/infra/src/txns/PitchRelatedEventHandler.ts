@@ -1,7 +1,7 @@
 import { Injectable, Logger, OnModuleInit } from "@nestjs/common";
-import { ITxnHandler, ITxnInput } from "./txnRouter.service";
+import { ITxnHandler, ITxnInput } from "./TxnRouterService";
 import { ConfigService } from "@nestjs/config";
-import { TxnRouterService } from "./txnRouter.service";
+import { TxnRouterService } from "./TxnRouterService";
 import { ADataStoreFactory, APitchStore, Pitch } from "@sebu/db-models";
 import { PaymentHandler } from "./PaymentHandler";
 import { NextPitchHandler } from "./NextPitchHandler";

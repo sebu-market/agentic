@@ -1,7 +1,7 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { ADataStoreFactory, APitchStore, AUserStore, Conversation, LockCodes, PaymentInfo, Pitch } from "@sebu/db-models";
 import { ethers } from "ethers";
-import { ITxnInput } from "./txnRouter.service";
+import { ITxnInput } from "./TxnRouterService";
 import { PitchStatus } from "@sebu/dto";
 import { ConfigService } from "@nestjs/config";
 @Injectable()

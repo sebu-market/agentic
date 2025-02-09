@@ -1,5 +1,5 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { ITxnInput } from "./txnRouter.service";
+import { ITxnInput } from "./TxnRouterService";
 import { ADataStoreFactory, APitchStore, Pitch } from "@sebu/db-models";
 import { PitchStatus } from "@sebu/dto";
 

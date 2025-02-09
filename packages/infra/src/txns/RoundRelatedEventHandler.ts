@@ -1,7 +1,7 @@
 import { Injectable, Logger, OnModuleInit } from "@nestjs/common";
-import { ILogDescription, ITxnHandler, ITxnInput } from "./txnRouter.service";
+import { ILogDescription, ITxnHandler, ITxnInput } from "./TxnRouterService";
 import { ConfigService } from "@nestjs/config";
-import { TxnRouterService } from "./txnRouter.service";
+import { TxnRouterService } from "./TxnRouterService";
 import { ADataStoreFactory, AInvestmentRoundStore, APendingLPStore, AUserStore, InvestmentRound, InvestorPortfolio, LockCodes, PendingLPDistribution, SebuUser } from "@sebu/db-models";
 
 @Injectable()

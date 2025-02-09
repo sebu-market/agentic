@@ -6029,7 +6029,6 @@ __metadata:
     "@sebu/communication": "workspace:^"
     "@sebu/db-models": "workspace:^"
     "@sebu/dto": "workspace:*"
-    "@sebu/smartcontracts": "workspace:^"
     "@sebu/ssm-service": "workspace:^"
     "@types/express": "npm:^5.0.0"
     "@types/jest": "npm:^29.5.2"
@@ -6365,7 +6364,6 @@ __metadata:
     "@sebu/communication": "workspace:^"
     "@sebu/db-models": "workspace:^"
     "@sebu/dto": "workspace:^"
-    "@sebu/smartcontracts": "workspace:^"
     "@types/aws-lambda": "npm:^8.10.147"
     "@types/express": "npm:^5.0.0"
     "@types/jest": "npm:^29.5.2"
@@ -6462,7 +6460,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sebu/smartcontracts@workspace:^, @sebu/smartcontracts@workspace:packages/smartcontracts":
+"@sebu/smartcontracts@workspace:packages/smartcontracts":
   version: 0.0.0-use.local
   resolution: "@sebu/smartcontracts@workspace:packages/smartcontracts"
   dependencies:
