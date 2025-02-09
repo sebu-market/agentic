@@ -28,7 +28,7 @@ export function PitchSummary({ pitch }: ScreeningSummaryProps) {
       >
         {title}
         {pitch.status === PitchStatus.LIVE && (
-          <Badge variant={'destructive'}>LIVE</Badge>
+          <Badge variant={'destructive'} className='ml-1'>LIVE</Badge>
         )}
       </Link>
       &nbsp;
