@@ -1,34 +1,25 @@
+import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
-import { useEthersProvider } from '@/hooks/viemToEthers';
 import { createLazyFileRoute } from '@tanstack/react-router';
 import { useSIWE } from 'connectkit';
-import { Signer } from 'ethers';
-import { useEffect } from 'react';
-import { useAccount, useChainId } from 'wagmi';
-import { useSebuClient } from '../hooks/useSebuClient';
 
 export const Route = createLazyFileRoute('/')({
   component: Index,
 })
 
 function Index() {
-  const { data, isSignedIn, signOut, signIn } = useSIWE();
-  
- 
+
   return (
-    <div className="p-2">
-      <h3>Welcome Home!</h3>
-      <p>
-        {isSignedIn ? 'You are signed in' : 'You are not signed in'}
-      </p>
-      <Button onClick={isSignedIn ? signOut : signIn}>
-        {isSignedIn ? 'Sign Out' : 'Sign In'}
-      </Button>
-      <h4>Data</h4>
-      <pre>
-        {JSON.stringify(data, null, 2)}
-      </pre>
-      
+    <div className="p-2 min-h-96 flex flex-col items-center justify-center">
+        <div className="text-2xl font-bold mb-4 text-center logo w-[50%] pb-8">
+        Funding the tokenized future through
+        autonomous portfolios
+        </div>
+
+      <div className="w-64 h-64 mr-0 md:mr-8 ">
+        <Logo className="h-64 w-64 flex-no-shrink" />
+      </div>
+
     </div>
   )
 }

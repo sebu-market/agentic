@@ -9,7 +9,9 @@ export type ScreeningSummaryProps = {
 export function PitchSummary({ pitch }: ScreeningSummaryProps) {
   let title = `Pitch ${pitch.id}`;
   if (pitch.tokenMetadata) {
-    title = `${pitch.tokenMetadata.name} (${pitch.tokenMetadata.symbol})`;
+    title = pitch.projectSummary?.projectName
+      ? pitch.projectSummary?.projectName
+      : `${pitch.tokenMetadata.name} (${pitch.tokenMetadata.symbol})`;
   }
 
   let subtitle = '';

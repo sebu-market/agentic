@@ -61,8 +61,8 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 
           <footer className='col-span-12'>
             <FooterSection />
-      <TanStackRouterDevtools />
-      <ReactQueryDevtools />
+      {/* <TanStackRouterDevtools />
+      <ReactQueryDevtools /> */}
           </footer>
         </div>
         {/* <ModeToggle /> */}
