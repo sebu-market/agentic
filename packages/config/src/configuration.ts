@@ -1,9 +1,15 @@
 
+function extractWallets(value = ''): string[] {
+    return value.split(',')
+        .map((it: string) => it.toLowerCase())
+        .filter((it: string) => it.length > 0);
+}
+
 export default async (): Promise<any> => {
 
     return {
         admin: {
-            siteAdmins: (process.env.SITE_ADMINS || '').split(',').map((it: string) => it.toLowerCase()),
+            siteAdmins: extractWallets(process.env.SITE_ADMINS), 
             wallet: {
                 address: process.env.ADMIN_WALLET_ADDRESS,
                 privateKey: process.env.ADMIN_WALLET_PRIVATE_KEY
