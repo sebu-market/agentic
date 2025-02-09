@@ -130,6 +130,8 @@ functions:
     timeout: 29
     events:
       - httpApi: '*'
+    provisionedConcurrency: 5
+
 
   watchdogHandler:
     handler: src/handler.watchdogHandler
