@@ -135,6 +135,7 @@ export abstract class BaseMessagesController<T extends Pitch | Screening> {
             id: message.id,
             content: message.content,
             sender: message.sender,
+            isInjected: message.isInjected,
             role: message.role,
             timestamp: message.updatedAt.toISOString(),
             requiresResponse: message.requiresResponse,
