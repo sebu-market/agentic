@@ -127,6 +127,7 @@ functions:
 
   httpRouter:
     handler: src/expressHandler.handler
+    timeout: 29
     events:
       - httpApi: '*'
 
