@@ -103,7 +103,7 @@ export function PitchShowPage(props: PitchShowPageProps) {
     const lastMessage = messages[messages.length - 1];
     if (lastMessage?.last && pitch.status === PitchStatus.LIVE) {
         queryClient.invalidateQueries({
-            queryKey: queries.pitches,
+            queryKey: queries.pitches._def.keys(),
         });
     }
 
