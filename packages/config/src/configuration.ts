@@ -8,11 +8,11 @@ function extractWallets(value = ''): string[] {
 export default async (): Promise<any> => {
 
     return {
-        admin: {
-            siteAdmins: extractWallets(process.env.SITE_ADMINS), 
+        guardian: {
+            siteGuardians: extractWallets(process.env.SITE_GUARDIANS), 
             wallet: {
-                address: process.env.ADMIN_WALLET_ADDRESS,
-                privateKey: process.env.ADMIN_WALLET_PRIVATE_KEY
+                address: process.env.GUARDIAN_WALLET_ADDRESS,
+                privateKey: process.env.GUARDIAN_WALLET_PRIVATE_KEY
             }
         },
         cookies: {

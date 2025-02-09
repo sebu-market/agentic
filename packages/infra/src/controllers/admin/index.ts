@@ -1,7 +1,7 @@
-import { AdminController } from './AdminController';
+import { GuardianController } from './GuardianController';
 
-export * from './AdminController';
+export * from './GuardianController';
 
 export const adminControllers = [
-    AdminController
+    GuardianController
 ]
