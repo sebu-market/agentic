@@ -71,3 +71,13 @@ export const useTheme = () => {
 
   return context
 }
+
+export const useEffectiveTheme = () => {
+  const { theme } = useTheme()
+
+  return theme === "system"
+    ? window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light"
+    : theme
+}
