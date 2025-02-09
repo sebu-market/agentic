@@ -48,9 +48,9 @@ provider:
     USDC_WETH_POOL: ${env:USDC_WETH_POOL}
     WETH_ADDRESS: ${env:WETH_ADDRESS}
     SEPOLIA_RPC_URL: ${env:SEPOLIA_RPC_URL}
-    SITE_ADMINS: ${env:SITE_ADMINS}
-    ADMIN_WALLET_ADDRESS: ${env:ADMIN_WALLET_ADDRESS}
-    ADMIN_WALLET_PRIVATE_KEY: ${env:ADMIN_WALLET_PRIVATE_KEY}
+    SITE_GUARDIANS: ${env:SITE_GUARDIANS}
+    GUARDIAN_WALLET_ADDRESS: ${env:GUARDIAN_WALLET_ADDRESS}
+    GUARDIAN_WALLET_PRIVATE_KEY: ${env:GUARDIAN_WALLET_PRIVATE_KEY}
   # websocketsApiName: sebu-ws-api
   # websocketsApiRouteSelectionExpression: $request.body.event
   # websocketsDescription: Custom Serverless Websockets
