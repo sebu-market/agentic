@@ -47,6 +47,7 @@ provider:
     USDC_ADDRESS: ${env:USDC_ADDRESS}
     USDC_WETH_POOL: ${env:USDC_WETH_POOL}
     WETH_ADDRESS: ${env:WETH_ADDRESS}
+    SEPOLIA_RPC_URL: ${env:SEPOLIA_RPC_URL}
   # websocketsApiName: sebu-ws-api
   # websocketsApiRouteSelectionExpression: $request.body.event
   # websocketsDescription: Custom Serverless Websockets
