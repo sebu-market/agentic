@@ -36,6 +36,7 @@ export class GuardianController {
     }
 
     @Get('is-guardian')
+    @UseGuards(AuthGuard)
     async isGuardian(@Req() req, @Res() res) {
         const user = AuthGuard.getUser(req);
         if (!user) {
