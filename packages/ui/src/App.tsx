@@ -66,6 +66,9 @@ export function App() {
   const { theme } = useTheme()
   const { reset } = useQueryErrorResetBoundary();
 
+  const defaultChainId = import.meta.env.VITE_DEFAULT_CHAIN_ID
+    ? parseInt(import.meta.env.VITE_DEFAULT_CHAIN_ID, 10)
+    : undefined;
 
   return (
     <ThemeProvider storageKey="ui-theme">
@@ -75,7 +78,7 @@ export function App() {
             <QueryClientProvider client={queryClient}>
               <SebuClientProvider client={sebuClient}>
                 <SebuSIWEProvider>
-                  <ConnectKitProvider mode={theme == 'system' ? 'auto' : theme}>
+                  <ConnectKitProvider mode={theme == 'system' ? 'auto' : theme} options={{ initialChainId: defaultChainId }}>
                     <RouterProvider router={router} />
                     <Toaster />
                   </ConnectKitProvider>

@@ -1,6 +1,7 @@
 import { getDefaultConfig } from "connectkit";
 import { createConfig, http } from "wagmi";
-import { arbitrum, base, baseSepolia } from "wagmi/chains";
+import { arbitrum, base, baseSepolia, Chain } from "wagmi/chains";
+
 
 const forkedChain = {
   ...base,
@@ -13,22 +14,37 @@ const forkedChain = {
   },
 };
 
+const enabledChainIds = import.meta.env.VITE_ENABLED_CHAINS
+  .split(',')
+  .filter(Boolean)
+  .map((id: string) => parseInt(id, 10));
+
+// readonly
+const availableChains: Chain[] = [
+  base,
+  arbitrum,
+  baseSepolia,
+  forkedChain,
+] as const;
+
+const configuredChains = availableChains.filter(
+  (chain) => enabledChainIds.includes(chain.id)
+) as [Chain, ...Chain[]];
+
+if (!configuredChains.length) {
+  throw new Error('No enabled chains');
+}
+
 export const wagmiConfig = createConfig(
   getDefaultConfig({
     // Your dApps chains
-    chains: [
-      base,
-      arbitrum,
-      forkedChain,
-      baseSepolia,
-    ],
+    chains: configuredChains,
     transports: {
       [forkedChain.id]: http(
         forkedChain.rpcUrls.default.http[0]
       ),
       // RPC URL for each chain
       [base.id]: http(
-        // FIXME: Rate limited and not for production systems.
         `https://mainnet.base.org`
       ),
       [baseSepolia.id]: http(
