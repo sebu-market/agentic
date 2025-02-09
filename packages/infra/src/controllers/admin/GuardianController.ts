@@ -37,7 +37,7 @@ export class GuardianController {
 
     @Get('is-guardian')
     @UseGuards(AuthGuard)
-    async isGuardian(@Req() req, @Res() res) {
+    async isGuardian(@Req() req) {
         const user = AuthGuard.getUser(req);
         if (!user) {
             return toErrorDTO("Unauthorized", 401);
