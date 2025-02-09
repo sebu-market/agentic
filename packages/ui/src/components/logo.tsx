@@ -1,11 +1,16 @@
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from 'react';
+import { useEffectiveTheme, useTheme } from "./theme-provider";
 
 function Plant({ className, }: { className?: string }) {
+
+    const theme = useEffectiveTheme();
+    const fillColor = theme === 'dark' ? '#000000' : '#ffffff';
+
     return (
         <svg className={
             cn(
-                "fill-[#ffffff] w-[100%] stroke-green-800 stroke-[3px] absolute origin-bottom transition duration-1000 transform logo-animated delay-500",
+                `fill-[${fillColor}] w-[100%] stroke-green-800 stroke-[3px] absolute origin-bottom transition duration-1000 transform logo-animated delay-500`,
                 className,
             )
         }
