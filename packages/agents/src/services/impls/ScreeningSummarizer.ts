@@ -18,7 +18,6 @@ interface IMsgType {
 export class ScreeningSummarizer extends AScreeningSummarizer {
     
     outSchema: ZodSchema = z.object({
-        serviceType: z.enum(["token_metadata_service", "duplicate_detection_service"]).optional().describe("The type of service needed to gather external information"),
         tokenMetadata: z.object({
             chainId: z.number().describe("The chain id of the token provided by the user"),
             symbol: z.string().describe("The symbol of the token provided by token metadata tool"),
@@ -68,38 +67,44 @@ export class ScreeningSummarizer extends AScreeningSummarizer {
 
     async summarize(input: Screening): Promise<void> {
         this.setupModel();
+        /*
         if(input.projectSummary) {
             return;
         }
+            */
         
         const inputs = [
             {
                 role: 'system',
-                content: `Use the conversation messages to fill in the output schema information`
+                content: `
+                    Your job is to summarize the details of a conversation with Aime, an 
+                    executive assistant for Sebu, a high net worth crypto investor.
+
+                    Use the context to extract the information needed to fill in the output schema information.
+
+                    NOTE: Aime may suggest that the project is similar to another project 
+                    but that doesn't mean she is rejecting the project. She will be very 
+                    firm and clear about rejecting the project.
+
+                    If she asks the user to make payment, it means she has accepted the project.
+                `
             }
         ].concat(this.formatMessages(input));
         const result = (await this.model.invoke(inputs) as z.infer<typeof this.outSchema>);
         
-        const matchingTokenMeta = await this.ds.readOnlyContext(async (ctx) => {
-            const store = ctx.getDataStore(ATokenMetaStore);
-            return await store.findByAddressAndChainId(result.tokenMetadata.address, result.tokenMetadata.chainId);
-        });
-
+        
         const summary = new ProjectSummary();
         const founder = new FounderInfo();
         
-        let tokenMetadata = matchingTokenMeta;
-        if(!tokenMetadata) {
-             new TokenMetadata();
-            tokenMetadata.symbol = result.tokenMetadata.symbol;
-            tokenMetadata.address = result.tokenMetadata.address.toLowerCase();
-            tokenMetadata.name = result.tokenMetadata.name;
-            tokenMetadata.decimals = result.tokenMetadata.decimals;
-            tokenMetadata.volume = result.tokenMetadata.volume_usd;
-            tokenMetadata.market_cap = result.tokenMetadata.marketCap;
-            tokenMetadata.price = result.tokenMetadata.price;
-            tokenMetadata.chain = result.tokenMetadata.chainId;
-        }
+        let tokenMetadata = new TokenMetadata();
+        tokenMetadata.symbol = result.tokenMetadata.symbol;
+        tokenMetadata.address = result.tokenMetadata.address.toLowerCase();
+        tokenMetadata.name = result.tokenMetadata.name;
+        tokenMetadata.decimals = result.tokenMetadata.decimals;
+        tokenMetadata.volume = result.tokenMetadata.volume_usd;
+        tokenMetadata.market_cap = result.tokenMetadata.marketCap;
+        tokenMetadata.price = result.tokenMetadata.price;
+        tokenMetadata.chain = result.tokenMetadata.chainId;
         input.tokenMetadata = tokenMetadata;
 
         founder.name = result.summary.pitcherName;
@@ -130,74 +135,6 @@ export class ScreeningSummarizer extends AScreeningSummarizer {
         });
     }
 
-    async createPendingPitch(screening: Screening): Promise<Pitch> {
-        
-        return await this.ds.readWriteContext(async (ctx) => {
-            const store = ctx.getDataStore(APitchStore);
-            const uStore = ctx.getDataStore(AUserStore);
-            const sStore = ctx.getDataStore(AScreeningStore);
-           
-            this.log.log("Generating embedding", screening.projectSummary.description);
-            const embedding = await this.embedding.invoke({text: screening.projectSummary.description});
-            //this.log.log("Embedding generated", embedding);
-            if(!embedding.length) {
-                throw new Error("Failed to generate embedding for pitch");
-            }
-            const p = new Pitch();
-            p.founderInfo = new FounderInfo();
-            p.founderInfo.name = screening.founderInfo.name;
-            p.founderInfo.role = screening.founderInfo.role;
-            p.founderInfo.socialMedia = screening.founderInfo.socialMedia;
-            p.owner = screening.owner;
-            p.projectSummary = screening.projectSummary;
-            p.embedding = embedding;
-            p.conversation = new Conversation();
-            p.conversationTokens = 0;
-            p.screeningId = screening.id;
-            p.status = PitchStatus.PENDING_PAYMENT;
-            p.timeLimitSeconds = this.pitchTimeLimit;
-            p.tokenMetadata = screening.tokenMetadata;
-
-            if(!screening.owner.pitches.isInitialized(true)) {
-                await screening.owner.pitches.init();
-            }
-            screening.owner.pitches.add(p);
-            await uStore.save(screening.owner);
-            screening.status = ScreeningStatus.ACCEPTED;
-            screening.followOnPitch = p;
-
-            await p.conversation.messages.init();
-            const summaryEntry = new ConversationMessage();
-            summaryEntry.conversation = p.conversation;
-            summaryEntry.sender = 'aime';
-            summaryEntry.role = 'assistant';
-            summaryEntry.isInjected = true;
-            summaryEntry.content = `FROM EXECUTIVE ASSISTANT: Here is a summary of this pitch
-                - Description: ${screening.projectSummary.description}
-                - Person Pitching: ${screening.founderInfo.name}
-                - Person's Role: ${screening.founderInfo.role}
-                - Project: ${screening.projectSummary.projectName}
-                - Twitter Handle: ${screening.founderInfo.socialMedia}
-                - TokenMetadata: ${JSON.stringify({
-                    chainId: screening.tokenMetadata.chain,
-                    symbol: screening.tokenMetadata.symbol,
-                    name: screening.tokenMetadata.name,
-                    decimals: screening.tokenMetadata.decimals,
-                    address: screening.tokenMetadata.address,
-                    volume: screening.tokenMetadata.volume,
-                    marketCap: screening.tokenMetadata.market_cap,
-                    price: screening.tokenMetadata.price,
-                })}
-            `;
-            if(screening.projectSummary.duplicateScore > 0) {
-                summaryEntry.content += `\n- This project is similar to another we have already seen: ${screening.projectSummary.duplicateName} described as ${screening.projectSummary.duplicateDescription}`;
-            }
-            p.conversation.messages.add(summaryEntry);
-            await store.save(p);
-            await sStore.save(screening);
-            return p;
-        });
-    }
 
     formatMessages(input: Screening): IMsgType[] {
         const outs: IMsgType[] = [];

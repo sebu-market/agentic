@@ -135,54 +135,60 @@ export class Aime extends AbstractAgent {
         }
         let isComplete = false;
         let needsPayment = false;
-        let scr: Screening = await this.ds.readWriteContext(async (ctx) => {
+        let screening = await this.ds.readOnlyContext(async (ctx) => {
             const store = ctx.getDataStore(AScreeningStore);
-            let screening = await store.findById(inMsg.sessionId, true);
-            let firstMsg: ConversationMessage | undefined = undefined;
-            if(inMsg.agentResponseMsgId) {
-                const hit = await screening.conversation.messages.find(m => m.id === inMsg.agentResponseMsgId);
-                if(hit && hit.content.trim().length === 0) {
-                    firstMsg = hit;
-                }
-            }
-            
-            for(const m of messages) {
-                const content = m.content.toString();
-                const isLast = content.indexOf("::END::") >= 0;
-                const np = content.indexOf("::PAYMENT::") >= 0;
-                if(!needsPayment && needsPayment !== np) {
-                    needsPayment = np;
-                }
-                const requiresResponse = !isLast;
-                if(!isComplete && isLast) {
-                    isComplete = isLast;
-                }
-                if(firstMsg) {
-                    firstMsg.content = m.content.toString();
-                    firstMsg.sender = this.name;
-                    firstMsg.isLast = isLast;
-                    firstMsg.requiresResponse = requiresResponse;
-                    screening.conversation.messages.add(firstMsg);
-                    firstMsg = undefined;
-                } else {
-                    const c = new ConversationMessage();
-                    c.sender = this.name;
-                    c.role = 'assistant';
-                    c.content = m.content.toString();
-                    c.conversation = screening.conversation;
-                    c.isLast = isLast;
-                    c.requiresResponse = requiresResponse;
-                    screening.conversation.messages.add(c);
-                }
-            }
-            screening = await store.save(screening);
-            return screening;
+            return await store.findById(inMsg.sessionId, true);
         });
+        if(!screening) {
+            throw new Error("Screening not found with id " + inMsg.sessionId);
+        }
+        let firstMsg: ConversationMessage | undefined = undefined;
+        if(inMsg.agentResponseMsgId) {
+            const hit = await screening.conversation.messages.find(m => m.id === inMsg.agentResponseMsgId);
+            if(hit && hit.content.trim().length === 0) {
+                firstMsg = hit;
+            }
+        }
+            
+        for(const m of messages) {
+            const content = m.content.toString();
+            const isLast = content.indexOf("::END::") >= 0;
+            const np = content.indexOf("::PAYMENT::") >= 0;
+            if(!needsPayment && np) {
+                needsPayment = true;
+            }
+            const requiresResponse = !isLast;
+            if(!isComplete && isLast) {
+                isComplete = isLast;
+            }
+            if(firstMsg) {
+                firstMsg.content = m.content.toString();
+                firstMsg.sender = this.name;
+                firstMsg.isLast = isLast;
+                firstMsg.requiresResponse = requiresResponse;
+                screening.conversation.messages.add(firstMsg);
+                firstMsg = undefined;
+            } else {
+                const c = new ConversationMessage();
+                c.sender = this.name;
+                c.role = 'assistant';
+                c.content = m.content.toString();
+                c.conversation = screening.conversation;
+                c.isLast = isLast;
+                c.requiresResponse = requiresResponse;
+                screening.conversation.messages.add(c);
+            }
+        }
         if(isComplete || needsPayment) {
             if(needsPayment) {
-                scr.status = ScreeningStatus.PENDING_PAYMENT;
+                screening.status = ScreeningStatus.PENDING_PAYMENT;
             }
-            await this.summarizer.summarize(scr);
+            await this.summarizer.summarize(screening);
+        } else {
+            await this.ds.readWriteContext(async (ctx) => {
+                const store = ctx.getDataStore(AScreeningStore);
+                await store.save(screening);
+            });
         }
     }
 

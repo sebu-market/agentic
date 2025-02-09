@@ -1,5 +1,4 @@
 import { NestFactory } from '@nestjs/core';
-import { SebuInfraModule } from '@sebu/infra';
 import { AppModule } from './AppModule';
 
 async function bootstrap() {

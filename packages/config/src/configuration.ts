@@ -35,7 +35,7 @@ export default async (): Promise<any> => {
             region: process.env.AWS_REGION || 'us-east-1',
             sqs: {
                 local: {
-                    url: process.env.LOCAL_SQS_POST_URL || 'http://localhost:5171/agent/send',
+                    url: process.env.LOCAL_SQS_POST_URL || 'http://localhost:5172/agent/send',
                 },
                 queues: {
                     agentRunnerQueue: process.env.SQS_AGENT_MESSAGE_QUEUE || 'agent-message-queue',
