@@ -17,3 +17,4 @@ export * from './SebuSessionCookieData';
 export * from './SigVerificationRequestDTO';
 export * from './SigVerificationResponseDTO';
 export * from './ContractAddresses';
+export * from './GuardianResponseDTO';
