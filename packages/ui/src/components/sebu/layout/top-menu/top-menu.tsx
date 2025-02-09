@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import { useNavigate } from "@tanstack/react-router"
 import { ConnectButton } from "./connect-button"
+import { useIsGuardian } from "@/queries/guardian"
 
 
 const components: { title: string; href: string; description: string }[] = [
@@ -54,6 +55,8 @@ const components: { title: string; href: string; description: string }[] = [
 
 export function TopMenu() {
   const navigate = useNavigate();
+  const isGuardianQuery = useIsGuardian();
+  const isGuardian = isGuardianQuery.data?.content === 'true';
 
   return (
     <div className="flex items-baseline justify-start">
@@ -74,6 +77,16 @@ export function TopMenu() {
               </Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
+
+          {(isGuardian) && (
+            <NavigationMenuItem>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()} asChild>
+                <Link to="/guardian">
+                  Guardian
+                </Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          )}
 
           {/* <NavigationMenuItem>
             <NavigationMenuLink className={navigationMenuTriggerStyle()} asChild>

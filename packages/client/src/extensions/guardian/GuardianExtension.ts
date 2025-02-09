@@ -13,4 +13,11 @@ export class GuardianExtension extends AClientExtension {
         });
     }
 
+    async isGuardian(): Promise<GuardianResponse> {
+        return await this.getWithValidation<GuardianResponse>({
+            path: '/guardian/is-guardian',
+            responseValidator: GuardianResponseDTOSchema,
+        });
+    }
+
 }

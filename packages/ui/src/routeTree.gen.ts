@@ -14,6 +14,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as RoundsIndexImport } from './routes/rounds/index'
+import { Route as GuardianIndexImport } from './routes/guardian/index'
 import { Route as ScreeningsSignupImport } from './routes/screenings/signup'
 import { Route as ScreeningsIdIndexImport } from './routes/screenings/$id/index'
 import { Route as PitchesIdIndexImport } from './routes/pitches/$id/index'
@@ -40,6 +41,12 @@ const IndexLazyRoute = IndexLazyImport.update({
 const RoundsIndexRoute = RoundsIndexImport.update({
   id: '/rounds/',
   path: '/rounds/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const GuardianIndexRoute = GuardianIndexImport.update({
+  id: '/guardian/',
+  path: '/guardian/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -86,6 +93,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ScreeningsSignupImport
       parentRoute: typeof rootRoute
     }
+    '/guardian/': {
+      id: '/guardian/'
+      path: '/guardian'
+      fullPath: '/guardian'
+      preLoaderRoute: typeof GuardianIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/rounds/': {
       id: '/rounds/'
       path: '/rounds'
@@ -116,6 +130,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/about': typeof AboutLazyRoute
   '/screenings/signup': typeof ScreeningsSignupRoute
+  '/guardian': typeof GuardianIndexRoute
   '/rounds': typeof RoundsIndexRoute
   '/pitches/$id': typeof PitchesIdIndexRoute
   '/screenings/$id': typeof ScreeningsIdIndexRoute
@@ -125,6 +140,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/about': typeof AboutLazyRoute
   '/screenings/signup': typeof ScreeningsSignupRoute
+  '/guardian': typeof GuardianIndexRoute
   '/rounds': typeof RoundsIndexRoute
   '/pitches/$id': typeof PitchesIdIndexRoute
   '/screenings/$id': typeof ScreeningsIdIndexRoute
@@ -135,6 +151,7 @@ export interface FileRoutesById {
   '/': typeof IndexLazyRoute
   '/about': typeof AboutLazyRoute
   '/screenings/signup': typeof ScreeningsSignupRoute
+  '/guardian/': typeof GuardianIndexRoute
   '/rounds/': typeof RoundsIndexRoute
   '/pitches/$id/': typeof PitchesIdIndexRoute
   '/screenings/$id/': typeof ScreeningsIdIndexRoute
@@ -146,6 +163,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/screenings/signup'
+    | '/guardian'
     | '/rounds'
     | '/pitches/$id'
     | '/screenings/$id'
@@ -154,6 +172,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/screenings/signup'
+    | '/guardian'
     | '/rounds'
     | '/pitches/$id'
     | '/screenings/$id'
@@ -162,6 +181,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/screenings/signup'
+    | '/guardian/'
     | '/rounds/'
     | '/pitches/$id/'
     | '/screenings/$id/'
@@ -172,6 +192,7 @@ export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   AboutLazyRoute: typeof AboutLazyRoute
   ScreeningsSignupRoute: typeof ScreeningsSignupRoute
+  GuardianIndexRoute: typeof GuardianIndexRoute
   RoundsIndexRoute: typeof RoundsIndexRoute
   PitchesIdIndexRoute: typeof PitchesIdIndexRoute
   ScreeningsIdIndexRoute: typeof ScreeningsIdIndexRoute
@@ -181,6 +202,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   AboutLazyRoute: AboutLazyRoute,
   ScreeningsSignupRoute: ScreeningsSignupRoute,
+  GuardianIndexRoute: GuardianIndexRoute,
   RoundsIndexRoute: RoundsIndexRoute,
   PitchesIdIndexRoute: PitchesIdIndexRoute,
   ScreeningsIdIndexRoute: ScreeningsIdIndexRoute,
@@ -199,6 +221,7 @@ export const routeTree = rootRoute
         "/",
         "/about",
         "/screenings/signup",
+        "/guardian/",
         "/rounds/",
         "/pitches/$id/",
         "/screenings/$id/"
@@ -212,6 +235,9 @@ export const routeTree = rootRoute
     },
     "/screenings/signup": {
       "filePath": "screenings/signup.tsx"
+    },
+    "/guardian/": {
+      "filePath": "guardian/index.tsx"
     },
     "/rounds/": {
       "filePath": "rounds/index.tsx"
