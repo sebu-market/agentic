@@ -2,4 +2,4 @@
 
 yarn clean
 
-yarn workspaces foreach --all --topological --parallel  run build
+yarn workspaces foreach --exclude @sebu/ui --all --topological --parallel  run build
