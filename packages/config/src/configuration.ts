@@ -38,7 +38,7 @@ export default async (): Promise<any> => {
                     url: process.env.LOCAL_SQS_POST_URL || 'http://localhost:5172/agent/send',
                 },
                 queues: {
-                    agentRunnerQueue: process.env.SQS_AGENT_MESSAGE_QUEUE || 'agent-message-queue',
+                    agentRunnerQueue: process.env.SQS_AGENT_MESSAGE_QUEUE || 'agent-message',
                 }
             }
         },
