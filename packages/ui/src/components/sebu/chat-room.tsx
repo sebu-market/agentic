@@ -12,10 +12,11 @@ import sebuAvatarUrl from '@/assets/images/avatars/sebu.png';
 import aimeAvatarUrl from '@/assets/images/avatars/aime.png';
 import userAvatarUrl from '@/assets/images/avatars/human.png';
 
-const Avatars: Record<MessageSender, string> = {
+const Avatars: Record<string, string> = {
     [MessageSender.Aime]: aimeAvatarUrl,
     [MessageSender.Sebu]: sebuAvatarUrl,
     [MessageSender.User]: userAvatarUrl,
+    'assistant': sebuAvatarUrl, // FIXME: bug in the backend
 } as const;
 
 console.log({
