@@ -6,57 +6,10 @@ import { SessionType } from "@/queries/utils/dto";
 import { useQueryClient } from "@tanstack/react-query";
 import { PitchMetadata, PitchStatus } from "@sebu/dto";
 import { useSession } from "@/queries/auth";
+import { FinalEval } from "../features/final-eval";
 
 export interface PitchShowPageProps {
     id: number;
-}
-
-type PitchEval = {
-    apingIn: boolean;
-    score: number;
-    moonPotentialScore: number;
-    bullishFactors: string[];
-    redFlags: string[];
-}
-
-export function FinalEval({ pitch }: { pitch: PitchMetadata }) {
-
-    const evaluation = pitch.finalEval as PitchEval;
-    if (!evaluation) {
-        return null;
-    }
-
-   return (
-        <div className="">
-            <h3 className="font-medium">Final Evaluation</h3>
-            <div className="grid grid-cols-2 gap-4">
-                <div>
-                    <h4>Would you ape into this project?</h4>
-                    <p>{evaluation.apingIn ? 'Yes' : 'No'}</p>
-                </div>
-                <div>
-                    <h4>Score</h4>
-                    <p>{evaluation.moonPotentialScore || evaluation.score}</p>
-                </div>
-                <div>
-                    <h4>Bullish Factors</h4>
-                    <ul>
-                        {evaluation.bullishFactors.map((factor: string, i: number) => (
-                            <li key={i}>{factor}</li>
-                        ))}
-                    </ul>
-                </div>
-                <div>
-                    <h4>Red Flags</h4>
-                    <ul>
-                        {evaluation.redFlags.map((flag: string, i: number) => (
-                            <li key={i}>{flag}</li>
-                        ))}
-                    </ul>
-                </div>
-            </div>
-        </div>
-    )
 }
 
 export function PitchShowPage(props: PitchShowPageProps) {
