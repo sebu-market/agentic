@@ -58,6 +58,9 @@ export default async (): Promise<any> => {
             url: process.env.RPC_URL,
             [44444]: {
                 url: process.env.LOCAL_RPC_URL || 'http://localhost:8545',
+            }, 
+            [84532]: {
+                url: process.env.SEPOLIA_RPC_URL,
             }
         },
         contracts: {
