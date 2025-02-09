@@ -108,4 +108,54 @@ export class GuardianController {
 
     }
 
+
+    @Post('set-ranking')
+    @UseGuards(AuthGuard)
+    async setRanking(
+        @Req() req
+    ) {
+        const user = AuthGuard.getUser(req);
+        if (!user) {
+            return toErrorDTO("Unauthorized", 401);
+        }
+
+        // verify site admin
+        const siteAdmins = this.config.get<string[]>('guardian.siteGuardians');
+        const isAdmin = siteAdmins.includes(user.user_wallet.toLowerCase());
+        if (!isAdmin) {
+            return toErrorDTO("Unauthorized", 401);
+        }
+
+        try {
+            const tx = await this.sebuContract.setRanking(1n);
+            await tx.wait();
+            const txn = await this.provider.getTransaction(tx.hash);
+            const rec = await this.provider.getTransactionReceipt(tx.hash);
+            const input: ITxnInput = {
+                block_number: ""+txn.blockNumber,
+                from: txn.from,
+                to: txn.to,
+                hash: txn.hash,
+                logs: rec.logs.map(log => {
+                    return {
+                        address: log.address,
+                        data: log.data,
+                        topics: log.topics,
+                    } as ITxnLogEvent;
+                }),
+                network: this.chainId.toString(),
+                status: Boolean(rec.status),
+            };
+            await this.txnRouter.route(input);
+            
+            return {
+                content: `Set Ranking called'}`
+            }
+        } catch (e: any) {
+            this.log.error(e, e.stack);
+            return toErrorDTO(e);
+        }
+
+    }
+
 }

@@ -27,3 +27,14 @@ export function useAdvanceRound() {
         },
     });
 };
+
+
+export function useSetRanking() {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: () => sebuClient.guardian.setRanking(),
+        onSuccess() {
+        },
+    });
+};
