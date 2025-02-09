@@ -124,6 +124,7 @@ functions:
   agentCallHandler:
     handler: src/handler.agentCallHandler
     timeout: 60
+    provisionedConcurrency: 1
     events:
       - sqs: 
           arn: arn:aws:sqs:us-east-1:746669197208:agent-message
