@@ -18,5 +18,6 @@ export const ContractAddresses = {
         SebuMaster: "0x89fa63e70e4da6640837b55f50fa675edcf76fc6",
         Funding: "0x17a8b545e40edc0b78447f1fca22c21a2370121c",
         Portfolio: "0x4d17b4c7d28fd2c8a7a523e81965271f2ecee939",
+        PayToken: "0x036cbd53842c5426634e7929541ec2318f3dcf7e"
     }
 }
