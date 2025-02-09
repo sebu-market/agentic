@@ -123,8 +123,8 @@ custom:
 functions:
   agentCallHandler:
     handler: src/handler.agentCallHandler
-    timeout: 60
-    provisionedConcurrency: 1
+    timeout: 30
+    # provisionedConcurrency: 1
     events:
       - sqs: 
           arn: arn:aws:sqs:us-east-1:746669197208:agent-message
@@ -136,7 +136,7 @@ functions:
     timeout: 29
     events:
       - httpApi: '*'
-    provisionedConcurrency: 5
+    # provisionedConcurrency: 5
 
 
   watchdogHandler:
