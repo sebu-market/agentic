@@ -5,6 +5,7 @@ import { queries, usePitch, usePitchMessages, useSendPitchMessage } from "@/quer
 import { SessionType } from "@/queries/utils/dto";
 import { useQueryClient } from "@tanstack/react-query";
 import { PitchMetadata, PitchStatus } from "@sebu/dto";
+import { useSession } from "@/queries/auth";
 
 export interface PitchShowPageProps {
     id: number;
@@ -61,6 +62,8 @@ export function FinalEval({ pitch }: { pitch: PitchMetadata }) {
 export function PitchShowPage(props: PitchShowPageProps) {
 
     const queryClient = useQueryClient();
+    const sessionQuery = useSession();
+    const session = sessionQuery.data;
 
     const contextType = SessionType.Pitch;
 
@@ -82,7 +85,7 @@ export function PitchShowPage(props: PitchShowPageProps) {
     const pitch = pitchQuery.data;
 
     if (!pitch) {
-        return <div>Screening not found</div>
+        return <div>Pitch not found</div>
     }
 
     const messages = [
@@ -90,7 +93,8 @@ export function PitchShowPage(props: PitchShowPageProps) {
     ];
 
     // FIXME: only allow if logged in user == pitch.user
-    const inputPermissions = pitch.status === PitchStatus.LIVE
+    const isOwner = session?.address?.toLowerCase() === pitch.owner_address.toLowerCase();
+    const inputPermissions = pitch.status === PitchStatus.LIVE && (isOwner)
         ? UserInputPermissions.Allow
         : UserInputPermissions.Hidden;
 
@@ -99,7 +103,7 @@ export function PitchShowPage(props: PitchShowPageProps) {
     const lastMessage = messages[messages.length - 1];
     if (lastMessage?.last && pitch.status === PitchStatus.LIVE) {
         queryClient.invalidateQueries({
-            queryKey: queries.pitches,
+            queryKey: queries.pitches._def.keys(),
         });
     }
 

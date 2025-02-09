@@ -31,6 +31,7 @@ export default ({ mode }: { mode: string }) => {
 
   return defineConfig({
     build: {
+      sourcemap: true,
       commonjsOptions: {
         include: cjsDependencies,
       },

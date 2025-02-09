@@ -12,9 +12,9 @@ export const pitchToDTO = (pitch: Pitch): PitchMetadata => {
         address: pitch.tokenMetadata.address,
         name: pitch.tokenMetadata.name,
         decimals: pitch.tokenMetadata.decimals,
-        volume_usd: pitch.tokenMetadata.volume,
-        marketCap: pitch.tokenMetadata.market_cap,
-        price: pitch.tokenMetadata.price
+        volume_usd: pitch.tokenMetadata.volume || 0,
+        marketCap: pitch.tokenMetadata.market_cap || 0,
+        price: pitch.tokenMetadata.price || 0
     } : undefined;
 
     const founderInfo = pitch.founderInfo ? {

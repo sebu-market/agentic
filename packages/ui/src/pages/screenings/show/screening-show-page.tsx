@@ -55,7 +55,7 @@ export function ScreeningShowPage(props: ScreeningShowPageProps) {
     // TODO-WS: this logic can go away if we bring back ws support
     // refresh the screening if we've received the last message.
     const lastMessage = messages[messages.length - 1];
-    if (lastMessage?.last && screening.status === ScreeningStatus.LIVE) {
+    if (lastMessage?.last && (screening.status === ScreeningStatus.LIVE || screening.status === ScreeningStatus.PENDING_PAYMENT)) {
         queryClient.invalidateQueries({
             queryKey: queries.screenings._def.keys(),
         });

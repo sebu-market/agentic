@@ -8,7 +8,7 @@ import { abis, ContractAddresses } from "@sebu/dto";
 import { ITxnInput, ITxnLogEvent, TxnRouterService } from "../../txns";
 import { ADataStoreFactory, AInvestmentRoundStore } from "@sebu/db-models";
 
-@Controller('admin')
+@Controller('guardian')
 export class GuardianController {
     private readonly log: Logger = new Logger(GuardianController.name);
 
@@ -35,15 +35,16 @@ export class GuardianController {
         this.sebuContract = new Contract(addy, abi, this.guardianSigner);
     }
 
-    @Get('isGuardian')
-    async isGuardian(@Req() req, @Res() res) {
+    @Get('is-guardian')
+    @UseGuards(AuthGuard)
+    async isGuardian(@Req() req) {
         const user = AuthGuard.getUser(req);
         if (!user) {
             return toErrorDTO("Unauthorized", 401);
         }
 
         // verify site admin
-        const siteAdmins = this.config.get<string[]>('admin.siteAdmins');
+        const siteAdmins = this.config.get<string[]>('guardian.siteGuardians');
         const isAdmin = siteAdmins.includes(user.user_wallet.toLowerCase());
         if (!isAdmin) {
             return {
@@ -66,7 +67,7 @@ export class GuardianController {
         }
 
         // verify site admin
-        const siteAdmins = this.config.get<string[]>('admin.siteAdmins');
+        const siteAdmins = this.config.get<string[]>('guardian.siteGuardians');
         const isAdmin = siteAdmins.includes(user.user_wallet.toLowerCase());
         if (!isAdmin) {
             return toErrorDTO("Unauthorized", 401);

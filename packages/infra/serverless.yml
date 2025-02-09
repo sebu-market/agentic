@@ -48,9 +48,9 @@ provider:
     USDC_WETH_POOL: ${env:USDC_WETH_POOL}
     WETH_ADDRESS: ${env:WETH_ADDRESS}
     SEPOLIA_RPC_URL: ${env:SEPOLIA_RPC_URL}
-    SITE_ADMINS: ${env:SITE_ADMINS}
-    ADMIN_WALLET_ADDRESS: ${env:ADMIN_WALLET_ADDRESS}
-    ADMIN_WALLET_PRIVATE_KEY: ${env:ADMIN_WALLET_PRIVATE_KEY}
+    SITE_GUARDIANS: ${env:SITE_GUARDIANS}
+    GUARDIAN_WALLET_ADDRESS: ${env:GUARDIAN_WALLET_ADDRESS}
+    GUARDIAN_WALLET_PRIVATE_KEY: ${env:GUARDIAN_WALLET_PRIVATE_KEY}
   # websocketsApiName: sebu-ws-api
   # websocketsApiRouteSelectionExpression: $request.body.event
   # websocketsDescription: Custom Serverless Websockets
@@ -122,13 +122,20 @@ custom:
 functions:
   agentCallHandler:
     handler: src/handler.agentCallHandler
+    timeout: 60
     events:
-      - sqs: arn:aws:sqs:us-east-1:746669197208:agent-message
+      - sqs: 
+          arn: arn:aws:sqs:us-east-1:746669197208:agent-message
+          batchSize: 1
+          maximumBatchingWindow: 2
 
   httpRouter:
     handler: src/expressHandler.handler
+    timeout: 29
     events:
       - httpApi: '*'
+    provisionedConcurrency: 5
+
 
   watchdogHandler:
     handler: src/handler.watchdogHandler
