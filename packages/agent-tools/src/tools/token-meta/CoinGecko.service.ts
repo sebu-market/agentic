@@ -7,6 +7,7 @@ export interface ITokenMetrics {
     price_usd: number;
 }
 
+const BASE_SEPOLIA = 84532;
 @Injectable()
 export class CoinGeckoService {
 
@@ -18,10 +19,12 @@ export class CoinGeckoService {
     private static CHAIN_ID = "chain_identifier";
     apiKey: string;
     network?: string;
+    chainID: number;
     constructor(
         readonly config: ConfigService
     ) {
         this.apiKey = config.getOrThrow("coingecko.api_key");
+        this.chainID = +config.getOrThrow("coingecko.chainId");
     }
 
     async getPlatformId(chainId: number): Promise<string> {
@@ -35,9 +38,16 @@ export class CoinGeckoService {
     }
 
     async getTokenMeta(address: string): Promise<ITokenMetrics> {   
-        if(!this.network) {
+        if(!this.network && this.chainID !== BASE_SEPOLIA) {
             this.network = await this.getPlatformId(+this.config.getOrThrow("coingecko.chainId"));
+        } else if(this.chainID === BASE_SEPOLIA) {
+           return {
+                market_cap_usd: 100_000_000,
+                volume_usd: 5_000_000,
+                price_usd: .05
+           }
         }
+
         const url = `https://api.coingecko.com/api/v3/simple/token_price/${this.network}?${CoinGeckoService.API_KEY}=${this.apiKey}&${CoinGeckoService.CON_ADDRESSES}=${address.toLowerCase()}&${CoinGeckoService.VS_CURRENCIES}=usd&${CoinGeckoService.INCL_MCAP}=true&${CoinGeckoService.INCL_24H}=true`;
 
         const res = await fetch(url);
