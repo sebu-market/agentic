@@ -50,6 +50,7 @@ export class AgentForwardingService implements IOutboundMessageHandler {
             };
         });
         await this.msgBus.incoming(inbound, this);
+        this.log.log('inbound message sent', inbound);
     }
 
     async onMessage(i: IInboundMessageEnvelope, o: IOutboundMessageEnvelope): Promise<void> {

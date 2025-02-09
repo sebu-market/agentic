@@ -12,6 +12,7 @@ import { AgentLambdaRequestDTOSchema } from '@sebu/dto';
 import { SebuInfraModule } from './SebuInfra.module';
 import { AgentForwardingService, PitchWatchdogService } from './services';
 import { TxnRouterService } from './txns';
+import { SQSHandler, SQSRecord } from "aws-lambda";
 
 let app: INestMicroservice;
 
@@ -30,7 +31,7 @@ async function getNestApp(): Promise<INestMicroservice> {
   return app;
 }
 
-exports.defaultHttpHandler = async (
+export const defaultHttpHandler = async (
   event: APIGatewayProxyEventV2,
   context: Context,
 ): Promise<APIGatewayProxyResultV2> => {
@@ -51,7 +52,7 @@ exports.defaultHttpHandler = async (
 
 }
 
-exports.watchdogHandler = async (): Promise<any> => {
+export const watchdogHandler = async (): Promise<any> => {
   const app = await getNestApp();
   const wdSvc = app.get(PitchWatchdogService);
   try {
@@ -69,7 +70,7 @@ exports.watchdogHandler = async (): Promise<any> => {
   }
 }
 
-exports.inboundTxnHandler = async(
+export const inboundTxnHandler = async (
   event: APIGatewayProxyEventV2
 ): Promise<any> => {
   const app = await getNestApp();
@@ -89,23 +90,29 @@ exports.inboundTxnHandler = async(
   }
 }
 
-exports.agentCallHandler = async (event: SQSEvent): Promise<any> => {
+export const agentCallHandler: SQSHandler = async (
+  event: SQSEvent,
+  context: Context
+): Promise<void> => {
   try {
 
-    for(const r of event.Records) {
+    for (const r of event.Records) {
       const dto = AgentLambdaRequestDTOSchema.parse(JSON.parse(r.body));
       const app = await getNestApp();
+
+      const sentTimestamp = parseInt(r.attributes.SentTimestamp, 10);
+      const age = Date.now() - sentTimestamp;
+
+      console.log(`******** Agent Call Handler : START : age: ${age}ms ********`);
+      const startTime = Date.now();
       const agentCallerService = app.get(AgentForwardingService);
       await agentCallerService.callAgent(dto);
+      const endTime = Date.now();
+      console.log(`******** Agent Call Handler : END : elapsed: ${endTime - startTime}ms ********`);
     }
-    return {
-      statusCode: 200
-    }
-    
+
   } catch (error) {
     console.log(error);
-    return {
-      statusCode: 500
-    }
+    throw error;
   }
 }
