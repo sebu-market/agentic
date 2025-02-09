@@ -35,7 +35,7 @@ export class GuardianController {
         this.sebuContract = new Contract(addy, abi, this.guardianSigner);
     }
 
-    @Get('isGuardian')
+    @Get('is-guardian')
     async isGuardian(@Req() req, @Res() res) {
         const user = AuthGuard.getUser(req);
         if (!user) {
