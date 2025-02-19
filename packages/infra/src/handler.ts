@@ -31,8 +31,9 @@ async function getNestApp(): Promise<INestMicroservice> {
   return app;
 }
 
-export const defaultHttpHandler = async (
-  event: APIGatewayProxyEventV2,
+// export const defaultHttpHandler = async (
+exports.defaultHttpHandler = async (
+    event: APIGatewayProxyEventV2,
   context: Context,
 ): Promise<APIGatewayProxyResultV2> => {
   const app = await getNestApp();
@@ -52,8 +53,9 @@ export const defaultHttpHandler = async (
 
 }
 
-export const watchdogHandler = async (): Promise<any> => {
-  const app = await getNestApp();
+// export const watchdogHandler = async (): Promise<any> => {
+exports.watchdogHandler = async (): Promise<any> => {
+    const app = await getNestApp();
   const wdSvc = app.get(PitchWatchdogService);
   try {
     await wdSvc.run();
@@ -70,8 +72,9 @@ export const watchdogHandler = async (): Promise<any> => {
   }
 }
 
-export const inboundTxnHandler = async (
-  event: APIGatewayProxyEventV2
+exports.inboundTxnHandler = async (
+// export const inboundTxnHandler = async (
+    event: APIGatewayProxyEventV2
 ): Promise<any> => {
   const app = await getNestApp();
   try {
@@ -90,8 +93,11 @@ export const inboundTxnHandler = async (
   }
 }
 
-export const agentCallHandler: SQSHandler = async (
-  event: SQSEvent,
+// exports.handler = async (
+
+// export const agentCallHandler: SQSHandler = async (
+exports.agentCallHandler = async (
+    event: SQSEvent,
   context: Context
 ): Promise<void> => {
   try {
